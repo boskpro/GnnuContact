@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">赣师校园通讯录</string>
+    <string name="action_settings">设置</string>
+    <string name="action_search">搜索</string>
+    <string name="title_activity_college_list">CollegeListActivity</string>
+    <string name="title_activity_person_list">PersonListActivity</string>
+    <string name="title_activity_search">搜索</string>
+
+    <string name="search_hint">搜索名字或号码</string>
+
+</resources>
