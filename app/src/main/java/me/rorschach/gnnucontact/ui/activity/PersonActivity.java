@@ -24,10 +24,14 @@ import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.adapter.PersonAdapter;
+import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
+import me.rorschach.gnnucontact.ui.fragment.StarFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
-public class PersonActivity extends AppCompatActivity {
+public class PersonActivity extends AppCompatActivity  implements
+        DetailFragment.StarChangeListener,
+        StarFragment.ListChangeListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -35,6 +39,7 @@ public class PersonActivity extends AppCompatActivity {
     RecyclerView mPersonList;
     @Bind(R.id.fab)
     FloatingActionButton mFab;
+    private StarFragment mStarFragment = StarFragment.newInstance();
 
     private List<Contact> mList;
     public static String COLLEGE_NAME = "COLLEGE_NAME";
@@ -131,4 +136,17 @@ public class PersonActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    @DebugLog
+    public boolean changeStarState() {
+        updateList();
+        return false;
+    }
+
+    @Override
+    @DebugLog
+    public boolean updateList() {
+        mStarFragment.updateAdapter();
+        return false;
+    }
 }

@@ -1,10 +1,10 @@
 package me.rorschach.gnnucontact.adapter;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.R;
+import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.greendao.Contact;
 
 /**
@@ -24,12 +25,12 @@ import me.rorschach.greendao.Contact;
  */
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
 
-    private Activity mActivity;
+    private AppCompatActivity mActivity;
     private List<Contact> mList;
 
     private PersonViewHolder mViewHolder;
 
-    public PersonAdapter(Activity activity, List<Contact> list) {
+    public PersonAdapter(AppCompatActivity activity, List<Contact> list) {
         this.mActivity = activity;
         this.mList = list;
     }
@@ -72,14 +73,11 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
 
         @Override
         public boolean onLongClick(View v) {
-//
-//                int position = getAdapterPosition();
-//                final Contact contact = mList.get(position);
+            int position = getAdapterPosition();
+            final Contact contact = mList.get(position);
 
-//                mFragment = DetailDialogFragment.newInstance(
-//                        contacts.getName(), contacts.getTel(),
-//                        contacts.getCollege(), contacts.getIsFavorite());
-//                showDetailDialog();
+            DetailFragment dialogFragment = DetailFragment.newInstance(contact);
+            dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
             return true;
         }
 

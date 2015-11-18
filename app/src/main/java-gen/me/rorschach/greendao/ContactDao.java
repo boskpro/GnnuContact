@@ -27,8 +27,9 @@ public class ContactDao extends AbstractDao<Contact, Long> {
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Tel = new Property(2, String.class, "tel", false, "TEL");
         public final static Property College = new Property(3, String.class, "college", false, "COLLEGE");
-        public final static Property IsFavorite = new Property(4, boolean.class, "isFavorite", false, "IS_FAVORITE");
+        public final static Property IsStar = new Property(4, boolean.class, "isStar", false, "IS_STAR");
         public final static Property IsRecord = new Property(5, boolean.class, "isRecord", false, "IS_RECORD");
+        public final static Property CommunicateTime = new Property(6, long.class, "communicateTime", false, "COMMUNICATE_TIME");
     };
 
 
@@ -48,8 +49,9 @@ public class ContactDao extends AbstractDao<Contact, Long> {
                 "\"NAME\" TEXT NOT NULL ," + // 1: name
                 "\"TEL\" TEXT NOT NULL ," + // 2: tel
                 "\"COLLEGE\" TEXT NOT NULL ," + // 3: college
-                "\"IS_FAVORITE\" INTEGER NOT NULL ," + // 4: isFavorite
-                "\"IS_RECORD\" INTEGER NOT NULL );"); // 5: isRecord
+                "\"IS_STAR\" INTEGER NOT NULL ," + // 4: isStar
+                "\"IS_RECORD\" INTEGER NOT NULL ," + // 5: isRecord
+                "\"COMMUNICATE_TIME\" INTEGER NOT NULL );"); // 6: communicateTime
     }
 
     /** Drops the underlying database table. */
@@ -70,8 +72,9 @@ public class ContactDao extends AbstractDao<Contact, Long> {
         stmt.bindString(2, entity.getName());
         stmt.bindString(3, entity.getTel());
         stmt.bindString(4, entity.getCollege());
-        stmt.bindLong(5, entity.getIsFavorite() ? 1L: 0L);
+        stmt.bindLong(5, entity.getIsStar() ? 1L: 0L);
         stmt.bindLong(6, entity.getIsRecord() ? 1L: 0L);
+        stmt.bindLong(7, entity.getCommunicateTime());
     }
 
     /** @inheritdoc */
@@ -88,8 +91,9 @@ public class ContactDao extends AbstractDao<Contact, Long> {
             cursor.getString(offset + 1), // name
             cursor.getString(offset + 2), // tel
             cursor.getString(offset + 3), // college
-            cursor.getShort(offset + 4) != 0, // isFavorite
-            cursor.getShort(offset + 5) != 0 // isRecord
+            cursor.getShort(offset + 4) != 0, // isStar
+            cursor.getShort(offset + 5) != 0, // isRecord
+            cursor.getLong(offset + 6) // communicateTime
         );
         return entity;
     }
@@ -101,8 +105,9 @@ public class ContactDao extends AbstractDao<Contact, Long> {
         entity.setName(cursor.getString(offset + 1));
         entity.setTel(cursor.getString(offset + 2));
         entity.setCollege(cursor.getString(offset + 3));
-        entity.setIsFavorite(cursor.getShort(offset + 4) != 0);
+        entity.setIsStar(cursor.getShort(offset + 4) != 0);
         entity.setIsRecord(cursor.getShort(offset + 5) != 0);
+        entity.setCommunicateTime(cursor.getLong(offset + 6));
      }
     
     /** @inheritdoc */

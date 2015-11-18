@@ -127,10 +127,10 @@ public class DbUtil {
     }
 
     @DebugLog
-    public static List<Contact> loadFavorites() {
+    public static List<Contact> loadStarList() {
         sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
         Query<Contact> query = sContactDao.queryBuilder()
-                .where(ContactDao.Properties.IsFavorite.eq(true))
+                .where(ContactDao.Properties.IsStar.eq(true))
                 .orderAsc(ContactDao.Properties.Name)
                 .build();
         QueryBuilder.LOG_SQL = true;

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,15 +20,23 @@ import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
+import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
+import me.rorschach.gnnucontact.ui.fragment.StarFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        DetailFragment.StarChangeListener,
+        StarFragment.ListChangeListener {
 
     @Bind(R.id.materialViewPager)
     MaterialViewPager mViewPager;
+
+    private StarFragment mStarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +45,14 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initView();
-        ParseTask parseTask =  new ParseTask();
+        ParseTask parseTask = new ParseTask();
         parseTask.execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("Activity", "onResume");
     }
 
     @Override
@@ -52,13 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public Fragment getItem(int position) {
+                Log.d("TAG", position % 3 + "");
                 switch (position % 3) {
-                    //case 0:
-                    //    return RecyclerViewFragment.newInstance();
-                    //case 1:
-                    //    return RecyclerViewFragment.newInstance();
-                    //case 2:
-                    //    return WebViewFragment.newInstance();
+                    case 0:
+                        return CollegeFragment.newInstance();
+                    case 1:
+                        return CollegeFragment.newInstance();
+                    case 2:
+                        mStarFragment = StarFragment.newInstance();
+                        return mStarFragment;
                     default:
                         return CollegeFragment.newInstance();
                 }
@@ -137,6 +154,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.fab)
+    public void goToDiaActivity() {
+//        finish();
+//        Intent i = getBaseContext().getPackageManager()
+//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+////        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         final MenuInflater inflater = getMenuInflater();
@@ -153,5 +180,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    @DebugLog
+    public boolean changeStarState() {
+        updateList();
+        return false;
+    }
+
+    @Override
+    @DebugLog
+    public boolean updateList() {
+        mStarFragment.updateAdapter();
+        return false;
     }
 }

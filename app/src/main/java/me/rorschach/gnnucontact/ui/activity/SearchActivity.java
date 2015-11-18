@@ -1,7 +1,5 @@
 package me.rorschach.gnnucontact.ui.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -44,8 +42,6 @@ public class SearchActivity extends AppCompatActivity {
     private List<Contact> mList;
     private SearchAdapter mAdapter;
 
-    private SearchView searchView;
-
     @Override
     @DebugLog
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +50,10 @@ public class SearchActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupRecyclerView();
+
         mToolbar.inflateMenu(R.menu.menu_main);
         mToolbar.setPopupTheme(R.style.AppTheme_ToolBarTheme);
+
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -102,13 +100,12 @@ public class SearchActivity extends AppCompatActivity {
         final MenuItem menuSearchItem = menu.findItem(R.id.action_search);
         // Get the SearchView and set the searchable configuration
 
-        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) menuSearchItem.getActionView();
+//        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        searchView = (SearchView) menuSearchItem.getActionView();
+        SearchView searchView = (SearchView) menuSearchItem.getActionView();
         // Assumes current activity is the searchable activity
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
         searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>"
                 + getResources().getString(R.string.search_hint) + "</font>"));

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="me.rorschach.gnnucontact.ui.activity.DiaActivity">
+
+    <!--<me.rorschach.gnnucontact.views.MyTextView-->
+        <!--android:text="hello myTextView"-->
+        <!--android:textSize="28sp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+    
+
+    <me.rorschach.gnnucontact.views.TopBar
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        custom:titleName="Title"
+        custom:titleTextColor="#fff44336"
+        custom:titleTextSize="20sp"
+        custom:leftText="Left"
+        custom:leftTextColor="#ff3498db"
+        custom:leftTextSize="15sp"
+        custom:leftBtground="#ff4CAF50"
+        custom:rightText="Right"
+        custom:rightBtground="#ffCDDC39"
+        custom:rightTextColor="#ff9c4faa"
+        custom:rightTextSize="15sp"
+        />
+
+</FrameLayout>

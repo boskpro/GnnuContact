@@ -19,22 +19,29 @@ import me.rorschach.greendao.Contact;
 public class XmlParseUtil {
 
     public static List<Contact> parseXmlToDb() {
+//        Context context = MyApplication.getInstance();
         Contact contact;
         XmlResourceParser xmlPullParser = null;
 
-        //XmlPullParser pullParser = Xml.newPullParser();
-        //pullParser.setInput(
-        //MyApplication.getInstance().openFileInput("text.xml"), "utf-8");
+//        String fileNames[] =context.getAssets().list(path);
 
+//        AssetManager assetManager = null;
+//        XmlPullParser xmlPullParser = null;
+//        InputStream inputStream = null;
         ArrayList<Contact> ContactsList = new ArrayList<>();
 
-        try {
+//        try {
+//            assetManager = context.getAssets();
+//            inputStream = assetManager.open(filename);
 //            xmlPullParser = Xml.newPullParser();
-//            xmlPullParser.setInput("");
+//            xmlPullParser.setInput(inputStream, "utf-8");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (XmlPullParserException e) {
+//            e.printStackTrace();
+//        }
+
             xmlPullParser = MyApplication.getInstance().getResources().getXml(R.xml.contacts);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         try {
             int eventType = xmlPullParser.getEventType();
@@ -51,7 +58,9 @@ public class XmlParseUtil {
                             contact.setName(xmlPullParser.getAttributeValue(0));
                             contact.setTel(xmlPullParser.getAttributeValue(1));
                             contact.setCollege(xmlPullParser.getAttributeValue(2));
-                            contact.setIsFavorite(false);
+                            contact.setIsStar(false);
+                            contact.setIsRecord(false);
+                            contact.setCommunicateTime(0l);
                             ContactsList.add(contact);
                         }
                         break;
@@ -66,6 +75,14 @@ public class XmlParseUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        finally {
+//            try {
+//                inputStream.close();
+//                assetManager.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         return ContactsList;
     }

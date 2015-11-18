@@ -27,6 +27,7 @@ import me.rorschach.gnnucontact.utils.DbUtil;
 public class CollegeFragment extends Fragment {
 
     private static CollegeFragment mFragment;
+
     @Bind(R.id.college_list)
     RecyclerView mRecyclerView;
 
@@ -77,16 +78,6 @@ public class CollegeFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-//        mAdapter = new RecyclerViewMaterialAdapter(new TestRecyclerViewAdapter(mContentItems));
-//        mAdapter = new RecyclerViewMaterialAdapter(new CollegeAdapter(getActivity(), collegeList));
-//        mRecyclerView.setAdapter(mAdapter);
-
-//        {
-//            for (int i = 0; i < ITEM_COUNT; ++i)
-//                mContentItems.add(new Object());
-//            mAdapter.notifyDataSetChanged();
-//        }
-
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 
@@ -105,7 +96,7 @@ public class CollegeFragment extends Fragment {
         @Override
         @DebugLog
         protected Void doInBackground(Void... params) {
-            DbUtil.insertFromXml();
+//            DbUtil.insertFromXml();
             collegeList = DbUtil.loadCollegeList();
             return null;
         }
