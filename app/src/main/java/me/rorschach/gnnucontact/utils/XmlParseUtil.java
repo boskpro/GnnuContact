@@ -1,10 +1,16 @@
 package me.rorschach.gnnucontact.utils;
 
 import android.content.res.XmlResourceParser;
+import android.os.Environment;
+import android.util.Log;
+import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +24,47 @@ import me.rorschach.greendao.Contact;
  */
 public class XmlParseUtil {
 
+    private final static String PATH = "/GnnuContact";
+    private final static String FILENAME = "/contact.xml";
+
+    public static List<Contact> updateXmlToDb() {
+        File sdCardPath;
+        File filePath = null;
+        Log.d("TAG", "hh");
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            Log.d("TAG", "hh");
+            sdCardPath = Environment.getExternalStorageDirectory();
+            filePath = new File(sdCardPath + PATH);
+            if (!filePath.exists()) {
+                filePath.mkdir();
+                Log.d("TAG", "hh");
+            }
+        }
+
+        XmlPullParser xmlPullParser = null;
+        try {
+            Log.d("TAG", "hh");
+            xmlPullParser = Xml.newPullParser();
+            xmlPullParser.setInput(new FileInputStream(filePath + FILENAME), "utf-8");
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return parseXml(xmlPullParser);
+    }
+
     public static List<Contact> parseXmlToDb() {
 //        Context context = MyApplication.getInstance();
-        Contact contact;
-        XmlResourceParser xmlPullParser = null;
-
+//
 //        String fileNames[] =context.getAssets().list(path);
-
+//
 //        AssetManager assetManager = null;
 //        XmlPullParser xmlPullParser = null;
 //        InputStream inputStream = null;
-        ArrayList<Contact> ContactsList = new ArrayList<>();
-
+//
+//
 //        try {
 //            assetManager = context.getAssets();
 //            inputStream = assetManager.open(filename);
@@ -40,8 +75,27 @@ public class XmlParseUtil {
 //        } catch (XmlPullParserException e) {
 //            e.printStackTrace();
 //        }
+//
+//      finally {
+//            try {
+//                inputStream.close();
+//                assetManager.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-            xmlPullParser = MyApplication.getInstance().getResources().getXml(R.xml.contacts);
+//        XmlResourceParser xmlPullParser = null;
+        XmlResourceParser xmlPullParser =
+                MyApplication.getInstance().getResources().getXml(R.xml.contacts);
+
+        return parseXml(xmlPullParser);
+    }
+
+    private static List<Contact> parseXml(XmlPullParser xmlPullParser) {
+        Log.d("TAG", "hh");
+        Contact contact;
+        ArrayList<Contact> contactsList = new ArrayList<>();
 
         try {
             int eventType = xmlPullParser.getEventType();
@@ -61,7 +115,7 @@ public class XmlParseUtil {
                             contact.setIsStar(false);
                             contact.setIsRecord(false);
                             contact.setCommunicateTime(0l);
-                            ContactsList.add(contact);
+                            contactsList.add(contact);
                         }
                         break;
 
@@ -75,15 +129,7 @@ public class XmlParseUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        finally {
-//            try {
-//                inputStream.close();
-//                assetManager.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
-        return ContactsList;
+        return contactsList;
     }
 }

@@ -220,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements
 //        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 ////        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        startActivity(i);
+
+
     }
 
     @Override
@@ -235,6 +237,16 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_search:
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.action_update:
+                Intent intent1 = new Intent(MainActivity.this, SplashActivity.class);
+                intent1.putExtra("UPDATE", true);
+                startActivity(intent1);
+                break;
+
+            case R.id.action_export:
+
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">赣师校园通讯录</string>
+
     <string name="action_settings">设置</string>
     <string name="action_search">搜索</string>
+    <string name="action_import">导入</string>
+    <string name="action_export">导出</string>
+
     <string name="title_activity_college_list">CollegeListActivity</string>
     <string name="title_activity_person_list">PersonListActivity</string>
     <string name="title_activity_search">搜索</string>

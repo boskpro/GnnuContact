@@ -1,8 +1,5 @@
 package me.rorschach.gnnucontact.utils;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,16 +19,24 @@ import me.rorschach.greendao.ContactDao;
 public class DbUtil {
 
     private static ContactDao sContactDao;
-    private static String name = ContactDao.Properties.Name.columnName;
-    private static String orderBy = name + " COLLATE LOCALIZED ASC";
-    private static SQLiteDatabase db = MyApplication.getInstance().getDb();
-    private static Cursor sCursor;
+//    private static String name = ContactDao.Properties.Name.columnName;
+//    private static String orderBy = name + " COLLATE LOCALIZED ASC";
+//    private static SQLiteDatabase db = MyApplication.getInstance().getReadableDb();
+//    private static Cursor sCursor;
 
     //************************ base operation ******************************
 
     public static boolean isEmpty() {
         sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
         return loadAll().isEmpty();
+    }
+
+    @DebugLog
+    public static long updateDbFromXml() {
+        sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
+        sContactDao.deleteAll();
+        List<Contact> list = XmlParseUtil.updateXmlToDb();
+        return list.size();
     }
 
     @DebugLog

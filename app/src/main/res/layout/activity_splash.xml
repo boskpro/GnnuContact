@@ -13,7 +13,7 @@
     <TextView
         android:text="Parsing..."
         android:textSize="30sp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:textColor="@color/holo_blue"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
