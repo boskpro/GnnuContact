@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="70dp"
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="@dimen/cardMarginHorizontal"
     android:layout_marginRight="@dimen/cardMarginHorizontal"
@@ -24,19 +24,20 @@
         <TextView
             android:id="@+id/name"
             android:gravity="start|center_vertical"
+            android:layout_gravity="start|center_vertical"
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="3"/>
 
         <TextView
             android:id="@+id/tel"
-            android:gravity="start|center_vertical"
+            android:gravity="start"
             android:layout_gravity="start|center_vertical"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="2"/>
 
     </LinearLayout>
 

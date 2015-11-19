@@ -43,6 +43,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.CollegeV
     public void onBindViewHolder(CollegeViewHolder holder, int position) {
         String text = mList.get(position);
         holder.college.setText(text);
+
+//        holder.college.setText("college");
     }
 
     @Override

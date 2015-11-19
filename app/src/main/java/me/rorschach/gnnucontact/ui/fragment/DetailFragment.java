@@ -3,6 +3,7 @@ package me.rorschach.gnnucontact.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,9 +27,10 @@ import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
-public class DetailFragment extends DialogFragment implements View.OnClickListener{
+public class DetailFragment extends DialogFragment implements View.OnClickListener {
 
     private static final String ARG_CONTACT = "ARG_CONTACT";
+    private boolean isStar = false;
 
     @Bind(R.id.avatar)
     ImageView mAvatar;
@@ -49,15 +51,17 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
 
     private Contact mContact;
 
-    private static DetailFragment mFragment;
+    private static DetailFragment sFragment;
     private StarChangeListener mListener;
 
     public static DetailFragment newInstance(Contact contact) {
-        mFragment = new DetailFragment();
+        if (sFragment == null) {
+            sFragment = new DetailFragment();
+        }
         Bundle args = new Bundle();
         args.putSerializable(ARG_CONTACT, contact);
-        mFragment.setArguments(args);
-        return mFragment;
+        sFragment.setArguments(args);
+        return sFragment;
     }
 
     public DetailFragment() {
@@ -69,6 +73,9 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mContact = (Contact) getArguments().getSerializable(ARG_CONTACT);
+            if (mContact != null) {
+                isStar = mContact.getIsStar();
+            }
         }
     }
 
@@ -97,9 +104,11 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     }
 
     @Override
+    @DebugLog
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        sFragment = null;
     }
 
     @Override
@@ -110,7 +119,15 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     }
 
     @Override
-    @DebugLog
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (isStar != mContact.getIsStar()) {
+            DbUtil.insertOrReplace(mContact);
+            mListener.changeStarState();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         Uri uri;
         Intent intent;
@@ -119,6 +136,11 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
                 uri = Uri.parse("tel:" + mContact.getTel());
                 intent = new Intent(Intent.ACTION_CALL, uri);
                 getActivity().startActivity(intent);
+
+                mContact.setIsRecord(true);
+                DbUtil.insertOrReplace(mContact);
+                mListener.addRecord();
+
                 break;
 
             case R.id.sms:
@@ -132,9 +154,6 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
                 mStar.setImageResource(mContact.getIsStar() ?
                         R.drawable.ic_star_grey_32 : R.drawable.ic_unstar_grey_32);
                 mContact.setIsStar(mContact.getIsStar());
-                DbUtil.insertOrReplace(mContact);
-
-                mListener.changeStarState();
 
                 break;
 
@@ -161,7 +180,10 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
         mListener = null;
     }
 
-    public interface StarChangeListener{
-        boolean changeStarState();
+    public interface StarChangeListener {
+
+        void addRecord();
+
+        void changeStarState();
     }
 }

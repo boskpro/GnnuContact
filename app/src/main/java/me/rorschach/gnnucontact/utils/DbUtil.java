@@ -138,6 +138,18 @@ public class DbUtil {
         return query.list();
     }
 
+    @DebugLog
+    public static List<Contact> loadRecordList() {
+        sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
+        Query<Contact> query = sContactDao.queryBuilder()
+                .where(ContactDao.Properties.IsRecord.eq(true))
+                .orderAsc(ContactDao.Properties.Name)
+                .build();
+        QueryBuilder.LOG_SQL = true;
+        QueryBuilder.LOG_VALUES = true;
+        return query.list();
+    }
+
     //********************** store search list **************************
 
     public static List<Contact> searchPersonByNameOrTel(String text) {

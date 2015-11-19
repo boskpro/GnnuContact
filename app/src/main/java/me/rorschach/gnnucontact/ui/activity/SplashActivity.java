@@ -30,6 +30,7 @@ public class SplashActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            finish();
         }
     }
 }

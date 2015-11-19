@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,20 +31,21 @@ import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
-public class StarFragment extends android.support.v4.app.Fragment {
+public class StarFragment extends Fragment {
 
     private static AppCompatActivity mActivity;
     private static StarFragment sFragment;
     private static List<Contact> starList = new ArrayList<>();
     private static RecyclerView.Adapter mAdapter;
-
     static RecyclerView mRecyclerView;
 
     private ListChangeListener mListener;
 
     @DebugLog
     public static StarFragment newInstance() {
-        sFragment = new StarFragment();
+        if (sFragment == null) {
+            sFragment = new StarFragment();
+        }
         return sFragment;
     }
 
@@ -64,9 +66,14 @@ public class StarFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
+    @DebugLog
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mActivity = null;
+        sFragment = null;
+        mAdapter = null;
+        starList = null;
     }
 
     @Override
@@ -102,6 +109,19 @@ public class StarFragment extends android.support.v4.app.Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void initRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+    }
+
+    private static void updateRecyclerView() {
+        mAdapter = new RecyclerViewMaterialAdapter(new StarAdapter(mActivity, starList));
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     class LoadStarTask extends AsyncTask<Void, Void, Void> {
 
         public LoadStarTask() {
@@ -127,19 +147,6 @@ public class StarFragment extends android.support.v4.app.Fragment {
             updateRecyclerView();
             mRecyclerView.setVisibility(View.VISIBLE);
         }
-    }
-
-    private void initRecyclerView() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
-    }
-
-    private static void updateRecyclerView() {
-        mAdapter = new RecyclerViewMaterialAdapter(new StarAdapter(mActivity, starList));
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -180,6 +187,9 @@ public class StarFragment extends android.support.v4.app.Fragment {
             final Contact contact = mList.get(position);
             holder.mName.setText(contact.getName());
             holder.mTel.setText(contact.getTel());
+
+//            holder.mName.setText("name");
+//            holder.mTel.setText("tel");
         }
 
         class StarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -199,17 +209,6 @@ public class StarFragment extends android.support.v4.app.Fragment {
 
             @Override
             public boolean onLongClick(View v) {
-                int position = getAdapterPosition();
-                final Contact contact = mList.get(position - 1);
-
-                DetailFragment dialogFragment = DetailFragment.newInstance(contact);
-                dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
-                return true;
-            }
-
-            @Override
-            public void onClick(View v) {
-
                 int position = getAdapterPosition();
                 final Contact contact = mList.get(position - 1);
 
@@ -235,11 +234,24 @@ public class StarFragment extends android.support.v4.app.Fragment {
                         .setNeutralButton("Cancel", null)
                         .create()
                         .show();
+
+
+                return true;
+            }
+
+            @Override
+            public void onClick(View v) {
+
+                int position = getAdapterPosition();
+                final Contact contact = mList.get(position - 1);
+
+                DetailFragment dialogFragment = DetailFragment.newInstance(contact);
+                dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
             }
         }
     }
 
     public interface ListChangeListener {
-        boolean updateList();
+        boolean updateStarList();
     }
 }

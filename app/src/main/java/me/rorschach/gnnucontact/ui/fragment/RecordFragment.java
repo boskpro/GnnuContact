@@ -1,22 +1,52 @@
 package me.rorschach.gnnucontact.ui.fragment;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 import com.squareup.leakcanary.RefWatcher;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
+import me.rorschach.gnnucontact.utils.DbUtil;
+import me.rorschach.greendao.Contact;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RecordFragment extends Fragment {
 
+    private static AppCompatActivity mActivity;
+    private static RecordFragment sFragment;
+    private static RecyclerView.Adapter mAdapter;
+    private static List<Contact> recordList = new ArrayList<>();
+    static RecyclerView mRecyclerView;
+
+    private RecordChangeListener mListener;
+
+    public static RecordFragment newInstance() {
+        if (sFragment == null) {
+            sFragment = new RecordFragment();
+        }
+        return sFragment;
+    }
 
     public RecordFragment() {
         // Required empty public constructor
@@ -27,7 +57,70 @@ public class RecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_record, container, false);
+        View view = inflater.inflate(R.layout.fragment_record, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.record_list);
+
+        initRecyclerView();
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LoadRecordTask recordTask = new LoadRecordTask();
+        recordTask.execute();
+    }
+
+    private void initRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+    }
+
+    private static void updateRecyclerView() {
+        mAdapter = new RecyclerViewMaterialAdapter(new RecordAdapter(mActivity, recordList));
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @DebugLog
+    public static void updateAdapter() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        recordList = DbUtil.loadRecordList();
+        mAdapter = new RecyclerViewMaterialAdapter(new RecordAdapter(mActivity, recordList));
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyItemRangeChanged(0, recordList.size());
+        mAdapter.notifyDataSetChanged();
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    class LoadRecordTask extends AsyncTask<Void, Void, Void> {
+
+        public LoadRecordTask() {
+            super();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        @DebugLog
+        protected Void doInBackground(Void... params) {
+            recordList = DbUtil.loadRecordList();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            updateRecyclerView();
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -37,5 +130,144 @@ public class RecordFragment extends Fragment {
         refWatcher.watch(this);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (AppCompatActivity) activity;
+        try {
+            mListener = (RecordChangeListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement ListChangeListener");
+        }
+    }
+
+    @Override
+    @DebugLog
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+        mActivity = null;
+        sFragment = null;
+        mAdapter = null;
+        recordList = null;
+    }
+
+    public static class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
+
+        private AppCompatActivity mActivity;
+        private List<Contact> mList;
+
+        private RecordViewHolder mViewHolder;
+
+        public RecordAdapter(AppCompatActivity activity, List<Contact> list) {
+            this.mActivity = activity;
+            this.mList = list;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mList.size();
+        }
+
+        @Override
+        public RecordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            final View view = LayoutInflater.from(mActivity)
+                    .inflate(R.layout.view_item_person, parent, false);
+            mViewHolder = new RecordViewHolder(view);
+            return mViewHolder;
+        }
+
+        @Override
+        @DebugLog
+        public void onBindViewHolder(RecordViewHolder holder, int position) {
+            final Contact contact = mList.get(position);
+            holder.mName.setText(contact.getName());
+            holder.mTel.setText(contact.getTel());
+        }
+
+        class RecordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
+            @Bind(R.id.name)
+            TextView mName;
+            @Bind(R.id.tel)
+            TextView mTel;
+
+            public RecordViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+
+                itemView.setOnClickListener(this);
+                itemView.setOnLongClickListener(this);
+            }
+
+            @Override
+            public boolean onLongClick(View v) {
+                int position = getAdapterPosition();
+                final Contact contact = mList.get(position - 1);
+//
+//                notifyItemRemoved(position);
+//                notifyItemRangeChanged(position, mList.size());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setTitle(R.string.sure_delete_record)
+                        .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                contact.setIsRecord(false);
+                                DbUtil.insertOrReplace(contact);
+                                updateAdapter();
+                                Toast.makeText(mActivity, R.string.delete_success,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .create()
+                        .show();
+
+
+                return true;
+            }
+
+            @Override
+            public void onClick(View v) {
+
+                int position = getAdapterPosition();
+                final Contact contact = mList.get(position - 1);
+
+                DetailFragment dialogFragment = DetailFragment.newInstance(contact);
+                dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
+
+//                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+//                builder.setTitle(contact.getName())
+//                        .setMessage(contact.getTel() + "\n" + contact.getCollege())
+//                        .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Uri uri = Uri.parse("tel:" + contact.getTel());
+//                                Intent intent = new Intent(Intent.ACTION_CALL, uri);
+//                                mActivity.startActivity(intent);
+//                            }
+//                        })
+//                        .setNegativeButton("Sms", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Uri uri = Uri.parse("sms:" + contact.getTel());
+//                                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+//                                mActivity.startActivity(intent);
+//                            }
+//                        })
+//                        .setNeutralButton("Cancel", null)
+//                        .create()
+//                        .show();
+
+            }
+        }
+    }
+
+
+    public interface RecordChangeListener {
+        void updateRecordList();
+    }
 
 }

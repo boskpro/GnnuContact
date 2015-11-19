@@ -76,17 +76,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
             int position = getAdapterPosition();
             final Contact contact = mList.get(position);
 
-            DetailFragment dialogFragment = DetailFragment.newInstance(contact);
-            dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
-            return true;
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            int position = getAdapterPosition();
-            final Contact contact = mList.get(position);
-
             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
             builder.setTitle(contact.getName())
                     .setMessage(contact.getTel() + "\n" + contact.getCollege())
@@ -110,6 +99,16 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
                     .create()
                     .show();
 
+            return true;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            final Contact contact = mList.get(position);
+
+            DetailFragment dialogFragment = DetailFragment.newInstance(contact);
+            dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
         }
     }
 }

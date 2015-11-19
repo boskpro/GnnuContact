@@ -30,8 +30,7 @@ import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
 public class PersonActivity extends AppCompatActivity  implements
-        DetailFragment.StarChangeListener,
-        StarFragment.ListChangeListener {
+        DetailFragment.StarChangeListener{
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -138,15 +137,10 @@ public class PersonActivity extends AppCompatActivity  implements
 
     @Override
     @DebugLog
-    public boolean changeStarState() {
-        updateList();
-        return false;
+    public void changeStarState() {
     }
 
     @Override
-    @DebugLog
-    public boolean updateList() {
-        mStarFragment.updateAdapter();
-        return false;
+    public void addRecord() {
     }
 }

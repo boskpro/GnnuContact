@@ -3,16 +3,17 @@ package me.rorschach.gnnucontact.ui.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.animation.DecelerateInterpolator;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
@@ -26,17 +27,26 @@ import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
 import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
+import me.rorschach.gnnucontact.ui.fragment.RecordFragment;
 import me.rorschach.gnnucontact.ui.fragment.StarFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
+import me.rorschach.gnnucontact.utils.DisplayUtils;
 
 public class MainActivity extends AppCompatActivity implements
         DetailFragment.StarChangeListener,
-        StarFragment.ListChangeListener {
+        StarFragment.ListChangeListener,
+        RecordFragment.RecordChangeListener{
 
     @Bind(R.id.materialViewPager)
     MaterialViewPager mViewPager;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
 
+    private CollegeFragment mCollegeFragment;
     private StarFragment mStarFragment;
+    private RecordFragment mRecordFragment;
+    private ViewPager viewPager;
+    private FragmentStatePagerAdapter mStatePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +55,14 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         initView();
-        ParseTask parseTask = new ParseTask();
-        parseTask.execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("Activity", "onResume");
+
+        ParseTask parseTask = new ParseTask();
+        parseTask.execute();
     }
 
     @Override
@@ -63,21 +73,40 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void initView() {
-        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+
+        Toolbar toolbar = mViewPager.getToolbar();
+        toolbar.setPopupTheme(R.style.AppTheme_ToolBarTheme);
+
+        setSupportActionBar(toolbar);
+        toolbar.inflateMenu(R.menu.menu_main);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayUseLogoEnabled(false);
+            actionBar.setHomeButtonEnabled(false);
+        }
+
+        viewPager = mViewPager.getViewPager();
+
+        mStatePagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {
-                Log.d("TAG", position % 3 + "");
                 switch (position % 3) {
                     case 0:
-                        return CollegeFragment.newInstance();
+                        mRecordFragment = RecordFragment.newInstance();
+                        return mRecordFragment;
                     case 1:
-                        return CollegeFragment.newInstance();
+                        mCollegeFragment = CollegeFragment.newInstance();
+                        return mCollegeFragment;
                     case 2:
                         mStarFragment = StarFragment.newInstance();
                         return mStarFragment;
                     default:
-                        return CollegeFragment.newInstance();
+                        mCollegeFragment = CollegeFragment.newInstance();
+                        return mCollegeFragment;
                 }
             }
 
@@ -95,8 +124,47 @@ public class MainActivity extends AppCompatActivity implements
                         return "学院列表";
                     case 2:
                         return "收藏联系人";
+//                    case 0:
+//                        return "record";
+//                    case 1:
+//                        return "college";
+//                    case 2:
+//                        return "star";
                 }
                 return "";
+            }
+        };
+
+        viewPager.setAdapter(mStatePagerAdapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    mFab.animate()
+                            .translationX(-DisplayUtils.getScreenWidth(MainActivity.this) / 2
+                                    - getResources().getDimension(R.dimen.fab_margin) / 2
+                                    + mFab.getWidth())
+                            .setDuration(350)
+                            .setInterpolator(new DecelerateInterpolator())
+                            .start();
+
+                } else {
+                    mFab.animate()
+                            .translationX(0)
+                            .setDuration(350)
+                            .setInterpolator(new DecelerateInterpolator())
+                            .start();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
             }
         });
 
@@ -106,6 +174,10 @@ public class MainActivity extends AppCompatActivity implements
 
                 switch (page % 3) {
                     case 0:
+//                        return HeaderDesign.fromColorAndDrawable(
+//                                getResources().getColor(R.color.blue),
+//                                getResources().getDrawable(R.drawable.images, getTheme())
+//                        );
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.blue,
                                 "https://fs01.androidpit.info/a/63/0e/android-l-wallpapers-630ea6-h900.jpg");
@@ -125,25 +197,11 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-        final ViewPager viewPager = mViewPager.getViewPager();
+        viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
         viewPager.setCurrentItem(1);
 
-        Toolbar toolbar = mViewPager.getToolbar();
-        toolbar.setPopupTheme(R.style.AppTheme_ToolBarTheme);
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            toolbar.inflateMenu(R.menu.menu_main);
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayUseLogoEnabled(false);
-            actionBar.setHomeButtonEnabled(false);
-        }
     }
 
     class ParseTask extends AsyncTask<Void, Void, Void> {
@@ -183,16 +241,25 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    @DebugLog
-    public boolean changeStarState() {
-        updateList();
-        return false;
+    public void addRecord() {
+        updateRecordList();
     }
 
     @Override
     @DebugLog
-    public boolean updateList() {
+    public void changeStarState() {
+        updateStarList();
+    }
+
+    @Override
+    @DebugLog
+    public boolean updateStarList() {
         mStarFragment.updateAdapter();
         return false;
+    }
+
+    @Override
+    public void updateRecordList() {
+        mRecordFragment.updateAdapter();
     }
 }
