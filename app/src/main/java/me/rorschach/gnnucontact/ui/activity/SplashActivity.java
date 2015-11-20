@@ -56,12 +56,15 @@ public class SplashActivity extends Activity {
         }
 
         @Override
+        @DebugLog
         protected Void doInBackground(Void... params) {
-            Log.d("TAG", "isUpdate" + isUpdate);
+            Log.d("TAG", "isUpdate : " + isUpdate);
             if (!isUpdate) {
                 DbUtil.insertFromXml();
+                Log.d("TAG", "insert done");
             }else {
                 DbUtil.updateDbFromXml();
+                Log.d("TAG", "update done");
             }
             return null;
         }
@@ -69,6 +72,7 @@ public class SplashActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Log.d("TAG", "test");
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }

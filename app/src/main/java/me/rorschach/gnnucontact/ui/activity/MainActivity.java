@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
 
-        ParseTask parseTask = new ParseTask();
-        parseTask.execute();
+//        ParseTask parseTask = new ParseTask();
+//        parseTask.execute();
     }
 
     @Override

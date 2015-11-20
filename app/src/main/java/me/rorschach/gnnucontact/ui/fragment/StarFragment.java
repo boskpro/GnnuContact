@@ -182,7 +182,6 @@ public class StarFragment extends Fragment {
         }
 
         @Override
-        @DebugLog
         public void onBindViewHolder(StarViewHolder holder, int position) {
             final Contact contact = mList.get(position);
             holder.mName.setText(contact.getName());

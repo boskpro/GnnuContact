@@ -35,7 +35,11 @@ public class DbUtil {
     public static long updateDbFromXml() {
         sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
         sContactDao.deleteAll();
+
         List<Contact> list = XmlParseUtil.updateXmlToDb();
+        for (Contact contact : list) {
+            insertOrReplace(contact);
+        }
         return list.size();
     }
 

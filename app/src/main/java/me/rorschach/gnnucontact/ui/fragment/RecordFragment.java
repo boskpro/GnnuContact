@@ -109,7 +109,6 @@ public class RecordFragment extends Fragment {
         }
 
         @Override
-        @DebugLog
         protected Void doInBackground(Void... params) {
             recordList = DbUtil.loadRecordList();
             return null;
@@ -179,7 +178,6 @@ public class RecordFragment extends Fragment {
         }
 
         @Override
-        @DebugLog
         public void onBindViewHolder(RecordViewHolder holder, int position) {
             final Contact contact = mList.get(position);
             holder.mName.setText(contact.getName());

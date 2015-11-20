@@ -16,7 +16,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.utils.TextUtil;
 import me.rorschach.greendao.Contact;
@@ -52,7 +51,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
     }
 
     @Override
-    @DebugLog
     public void onBindViewHolder(ResultViewHolder holder, int position) {
         final Contact contact = mList.get(position);
         holder.mName.setText(contact.getName());

@@ -11,7 +11,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.activity.PersonActivity;
 
@@ -25,7 +24,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.CollegeV
 
     private CollegeViewHolder mViewHolder;
 
-    @DebugLog
     public CollegeAdapter(Activity activity, List<String> list) {
         this.mActivity = activity;
         this.mList = list;
@@ -52,7 +50,6 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.CollegeV
         return mList.size();
     }
 
-    @DebugLog
     public class CollegeViewHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener, View.OnLongClickListener {
 

@@ -39,11 +39,11 @@ public class CollegeFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
 
     public static CollegeFragment newInstance() {
-//        if (mFragment == null) {
-//            mFragment = new CollegeFragment();
-//        }
-//        return mFragment;
-        return new CollegeFragment();
+        if (mFragment == null) {
+            mFragment = new CollegeFragment();
+        }
+        return mFragment;
+//        return new CollegeFragment();
     }
 
     public CollegeFragment() {
@@ -112,7 +112,7 @@ public class CollegeFragment extends Fragment {
     private void updateRecyclerView() {
         mAdapter = new RecyclerViewMaterialAdapter(new CollegeAdapter(getActivity(), collegeList));
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
     }
 
     @Override

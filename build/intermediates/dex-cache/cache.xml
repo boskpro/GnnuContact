@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.1/jars/classes.jar"
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.jakewharton.hugo/hugo-runtime/1.2.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="3abb4b88f5a8a0584a9b01d3170d7165f12f8588">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-27571bdae2e91dac076bfd65276e6d56e41c4e4c.jar" />
-    </item>
-    <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/com.squareup.haha/haha/1.3/d2c832f9d14a11c79f58a7ee2e10526a12152c72/haha-1.3.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="d2c832f9d14a11c79f58a7ee2e10526a12152c72">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/haha-1.3-9afa86a4790aac16cfa2320014df90b9903dfcac.jar" />
+        sha1="2bac9385ea008561a30419c09e9230a8681b3e09">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-8351cdf0c910dc741ab5812d2556ad2c559fd4b4.jar" />
     </item>
     <item
         jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
@@ -23,88 +16,11 @@
         <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-2bb3912f9592588122c46367520c6eb07400e24b.jar" />
     </item>
     <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/com.flaviofaria/kenburnsview/1.0.6/65dcd9c03096b73f4740d63cf93d30a692fe52b5/kenburnsview-1.0.6.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="65dcd9c03096b73f4740d63cf93d30a692fe52b5">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/kenburnsview-1.0.6-1fdbc65e4f2c64f79a79236a70f0869e84284c55.jar" />
-    </item>
-    <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-6bbe9b5d6a4ec71d1909297ac4c56013742f2fa4.jar" />
-    </item>
-    <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-analyzer/1.3.1/325e7401a7ea16918eb39ba8baad8fd5561a55d3/leakcanary-analyzer-1.3.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="325e7401a7ea16918eb39ba8baad8fd5561a55d3">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/leakcanary-analyzer-1.3.1-ea116a03b94b78bb5365c4e928985488bb1b85a1.jar" />
-    </item>
-    <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/de.greenrobot/greendao/2.0.0/5f49dd477c1621dfaf0f7fe5d755fe4f07526af2/greendao-2.0.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="5f49dd477c1621dfaf0f7fe5d755fe4f07526af2">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/greendao-2.0.0-975ab4c87b644111924fbffba43ffc8d0cc4119a.jar" />
-    </item>
-    <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-504a5025099e37baebb8038071527f7acb45f99f.jar" />
-    </item>
-    <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.github.ksoichiro/android-observablescrollview/1.5.2/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="256c2cf84542c459927ed4aa5f99a9b47855c071">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-6cb6088e145bc8444fa3cdc3b33357c34f874132.jar" />
-    </item>
-    <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-082cdf913a637554748dbd660f40a7ab5ea71100.jar" />
-    </item>
-    <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.github.florent37/materialviewpager/1.1.2/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="4fda8135463b597681edffc34701c62f9bd3b09f">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-8d6b27f72bf3f5819092c6997157f3ec5b2178ce.jar" />
-    </item>
-    <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.5/39a8ff2d1f79267907f5573c090b342b040b9682/aspectjrt-1.8.5.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="39a8ff2d1f79267907f5573c090b342b040b9682">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/aspectjrt-1.8.5-c52f92e0bb38a12076f6b26896f1134887942a5b.jar" />
-    </item>
-    <item
         jar="/root/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-watcher/1.3.1/6904771474c058abfc5912c13d12b02754712165/leakcanary-watcher-1.3.1.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="6904771474c058abfc5912c13d12b02754712165">
         <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/leakcanary-watcher-1.3.1-2be6cf2d745f1f392a3bff6029261b40618ecdce.jar" />
-    </item>
-    <item
-        jar="/root/.gradle/caches/modules-2/files-2.1/com.jakewharton.hugo/hugo-annotations/1.2.1/b01150795c5cdca1eb7e501bf00f105ff0e31501/hugo-annotations-1.2.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="b01150795c5cdca1eb7e501bf00f105ff0e31501">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/hugo-annotations-1.2.1-d2d5c00c7bdfaa1007bf0e53361aaf35c8a4de7a.jar" />
-    </item>
-    <item
-        jar="/home/lei/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-d6282981a29fcb285a17ebedc8ff69125904cebc.jar" />
     </item>
     <item
         jar="/root/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
@@ -114,18 +30,39 @@
         <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/library-2.4.0-966625304e7208badec13abab7a99ab1be33bd6f.jar" />
     </item>
     <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.jakewharton.hugo/hugo-runtime/1.2.1/jars/classes.jar"
+        jar="/root/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-analyzer/1.3.1/325e7401a7ea16918eb39ba8baad8fd5561a55d3/leakcanary-analyzer-1.3.1.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="2bac9385ea008561a30419c09e9230a8681b3e09">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-8351cdf0c910dc741ab5812d2556ad2c559fd4b4.jar" />
+        sha1="325e7401a7ea16918eb39ba8baad8fd5561a55d3">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/leakcanary-analyzer-1.3.1-ea116a03b94b78bb5365c4e928985488bb1b85a1.jar" />
     </item>
     <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.1/jars/classes.jar"
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.github.florent37/materialviewpager/1.1.2/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="e1fa5e1123997a55e3ed65b44892993ff4b58cfe">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-1b0f96ca3529dfea5a66264869c6c86c8ec1c6c4.jar" />
+        sha1="4fda8135463b597681edffc34701c62f9bd3b09f">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-8d6b27f72bf3f5819092c6997157f3ec5b2178ce.jar" />
+    </item>
+    <item
+        jar="/home/lei/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.1-d6282981a29fcb285a17ebedc8ff69125904cebc.jar" />
+    </item>
+    <item
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.jpardogo.materialtabstrip/library/1.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="611c7708cd3df0d7ae99105d4df5af8eb25c4b32">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-c362577b7b3bc42404acb13c021eec5d10a51939.jar" />
+    </item>
+    <item
+        jar="/root/.gradle/caches/modules-2/files-2.1/com.squareup.haha/haha/1.3/d2c832f9d14a11c79f58a7ee2e10526a12152c72/haha-1.3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d2c832f9d14a11c79f58a7ee2e10526a12152c72">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/haha-1.3-9afa86a4790aac16cfa2320014df90b9903dfcac.jar" />
     </item>
     <item
         jar="/root/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
@@ -135,11 +72,18 @@
         <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/picasso-2.5.2-f07471cc8daabba9b33b6c2492a169834e3c6749.jar" />
     </item>
     <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-2710f12d579634d5e83fe9f4abbd4e78c1fe1afb.jar" />
+        sha1="e1fa5e1123997a55e3ed65b44892993ff4b58cfe">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-1b0f96ca3529dfea5a66264869c6c86c8ec1c6c4.jar" />
+    </item>
+    <item
+        jar="/root/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-6bbe9b5d6a4ec71d1909297ac4c56013742f2fa4.jar" />
     </item>
     <item
         jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.squareup.leakcanary/leakcanary-android/1.3.1/jars/classes.jar"
@@ -149,11 +93,67 @@
         <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-fc1d8461c56259bff1e5bd2756ab29eac8688fe2.jar" />
     </item>
     <item
-        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.jpardogo.materialtabstrip/library/1.1.0/jars/classes.jar"
+        jar="/root/.gradle/caches/modules-2/files-2.1/de.greenrobot/greendao/2.0.0/5f49dd477c1621dfaf0f7fe5d755fe4f07526af2/greendao-2.0.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="611c7708cd3df0d7ae99105d4df5af8eb25c4b32">
-        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-c362577b7b3bc42404acb13c021eec5d10a51939.jar" />
+        sha1="5f49dd477c1621dfaf0f7fe5d755fe4f07526af2">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/greendao-2.0.0-975ab4c87b644111924fbffba43ffc8d0cc4119a.jar" />
+    </item>
+    <item
+        jar="/root/.gradle/caches/modules-2/files-2.1/com.jakewharton.hugo/hugo-annotations/1.2.1/b01150795c5cdca1eb7e501bf00f105ff0e31501/hugo-annotations-1.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b01150795c5cdca1eb7e501bf00f105ff0e31501">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/hugo-annotations-1.2.1-d2d5c00c7bdfaa1007bf0e53361aaf35c8a4de7a.jar" />
+    </item>
+    <item
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.1-2710f12d579634d5e83fe9f4abbd4e78c1fe1afb.jar" />
+    </item>
+    <item
+        jar="/root/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.5/39a8ff2d1f79267907f5573c090b342b040b9682/aspectjrt-1.8.5.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="39a8ff2d1f79267907f5573c090b342b040b9682">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/aspectjrt-1.8.5-c52f92e0bb38a12076f6b26896f1134887942a5b.jar" />
+    </item>
+    <item
+        jar="/root/.gradle/caches/modules-2/files-2.1/com.flaviofaria/kenburnsview/1.0.6/65dcd9c03096b73f4740d63cf93d30a692fe52b5/kenburnsview-1.0.6.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="65dcd9c03096b73f4740d63cf93d30a692fe52b5">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/kenburnsview-1.0.6-1fdbc65e4f2c64f79a79236a70f0869e84284c55.jar" />
+    </item>
+    <item
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3abb4b88f5a8a0584a9b01d3170d7165f12f8588">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-27571bdae2e91dac076bfd65276e6d56e41c4e4c.jar" />
+    </item>
+    <item
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-082cdf913a637554748dbd660f40a7ab5ea71100.jar" />
+    </item>
+    <item
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.github.ksoichiro/android-observablescrollview/1.5.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="256c2cf84542c459927ed4aa5f99a9b47855c071">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-6cb6088e145bc8444fa3cdc3b33357c34f874132.jar" />
+    </item>
+    <item
+        jar="/opt/AndroidCode/GnnuContact/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/opt/AndroidCode/GnnuContact/app/build/intermediates/pre-dexed/debug/classes-504a5025099e37baebb8038071527f7acb45f99f.jar" />
     </item>
 
 </items>

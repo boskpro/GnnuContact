@@ -15,7 +15,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.greendao.Contact;
@@ -49,7 +48,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     }
 
     @Override
-    @DebugLog
     public void onBindViewHolder(PersonViewHolder holder, int position) {
         final Contact contact = mList.get(position);
         holder.mName.setText(contact.getName());

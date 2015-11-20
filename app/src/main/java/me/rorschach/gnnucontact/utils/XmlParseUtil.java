@@ -25,26 +25,24 @@ import me.rorschach.greendao.Contact;
 public class XmlParseUtil {
 
     private final static String PATH = "/GnnuContact";
-    private final static String FILENAME = "/contact.xml";
+    private final static String FILENAME = "/contacts.xml";
 
     public static List<Contact> updateXmlToDb() {
         File sdCardPath;
         File filePath = null;
-        Log.d("TAG", "hh");
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            Log.d("TAG", "hh");
             sdCardPath = Environment.getExternalStorageDirectory();
+            Log.d("TAG", "sdcard : " + sdCardPath);
             filePath = new File(sdCardPath + PATH);
             if (!filePath.exists()) {
                 filePath.mkdir();
-                Log.d("TAG", "hh");
             }
         }
 
         XmlPullParser xmlPullParser = null;
         try {
-            Log.d("TAG", "hh");
             xmlPullParser = Xml.newPullParser();
+            Log.d("TAG", "filePath : " + filePath + FILENAME);
             xmlPullParser.setInput(new FileInputStream(filePath + FILENAME), "utf-8");
         } catch (XmlPullParserException e) {
             e.printStackTrace();
@@ -93,7 +91,7 @@ public class XmlParseUtil {
     }
 
     private static List<Contact> parseXml(XmlPullParser xmlPullParser) {
-        Log.d("TAG", "hh");
+        Log.d("TAG", "parseXml start");
         Contact contact;
         ArrayList<Contact> contactsList = new ArrayList<>();
 
@@ -129,7 +127,7 @@ public class XmlParseUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Log.d("TAG", "parseXml done");
         return contactsList;
     }
 }

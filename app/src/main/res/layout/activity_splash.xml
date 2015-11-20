@@ -11,7 +11,7 @@
     tools:context="me.rorschach.gnnucontact.ui.activity.SplashActivity">
 
     <TextView
-        android:text="Parsing..."
+        android:text="正在导入数据，请稍候..."
         android:textSize="30sp"
         android:gravity="center"
         android:textColor="@color/holo_blue"
