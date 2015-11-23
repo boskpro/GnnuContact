@@ -121,10 +121,12 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+
         if (isStar != mContact.getIsStar()) {
             DbUtil.insertOrReplace(mContact);
             mListener.changeStarState();
         }
+        mListener.addRecord();
     }
 
     @Override
@@ -139,7 +141,6 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
 
                 mContact.setIsRecord(true);
                 DbUtil.insertOrReplace(mContact);
-                mListener.addRecord();
 
                 break;
 

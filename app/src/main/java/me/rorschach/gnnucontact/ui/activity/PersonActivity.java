@@ -25,7 +25,6 @@ import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.adapter.PersonAdapter;
 import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
-import me.rorschach.gnnucontact.ui.fragment.StarFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
@@ -38,12 +37,10 @@ public class PersonActivity extends AppCompatActivity  implements
     RecyclerView mPersonList;
     @Bind(R.id.fab)
     FloatingActionButton mFab;
-    private StarFragment mStarFragment = StarFragment.newInstance();
 
     private List<Contact> mList;
     public static String COLLEGE_NAME = "COLLEGE_NAME";
     private String college;
-    private PersonAdapter mAdapter;
 
     @DebugLog
     public static void goToPersonList(Context context, String college) {
@@ -113,7 +110,7 @@ public class PersonActivity extends AppCompatActivity  implements
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mPersonList.setLayoutManager(linearLayoutManager);
         mPersonList.setHasFixedSize(true);
-        mAdapter = new PersonAdapter(PersonActivity.this, mList);
+        PersonAdapter mAdapter = new PersonAdapter(PersonActivity.this, mList);
         mPersonList.setAdapter(mAdapter);
     }
 
@@ -138,9 +135,11 @@ public class PersonActivity extends AppCompatActivity  implements
     @Override
     @DebugLog
     public void changeStarState() {
+
     }
 
     @Override
     public void addRecord() {
+
     }
 }

@@ -1,7 +1,6 @@
 package me.rorschach.gnnucontact.ui.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,6 @@ import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
 import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.gnnucontact.ui.fragment.RecordFragment;
 import me.rorschach.gnnucontact.ui.fragment.StarFragment;
-import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.gnnucontact.utils.DisplayUtils;
 
 public class MainActivity extends AppCompatActivity implements
@@ -45,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements
     private CollegeFragment mCollegeFragment;
     private StarFragment mStarFragment;
     private RecordFragment mRecordFragment;
-    private ViewPager viewPager;
-    private FragmentStatePagerAdapter mStatePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +51,6 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         initView();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-//        ParseTask parseTask = new ParseTask();
-//        parseTask.execute();
     }
 
     @Override
@@ -88,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements
             actionBar.setHomeButtonEnabled(false);
         }
 
-        viewPager = mViewPager.getViewPager();
+        ViewPager viewPager = mViewPager.getViewPager();
 
-        mStatePagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        FragmentStatePagerAdapter mStatePagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {
@@ -174,20 +162,16 @@ public class MainActivity extends AppCompatActivity implements
 
                 switch (page % 3) {
                     case 0:
-//                        return HeaderDesign.fromColorAndDrawable(
-//                                getResources().getColor(R.color.blue),
-//                                getResources().getDrawable(R.drawable.images, getTheme())
-//                        );
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.blue,
                                 "https://fs01.androidpit.info/a/63/0e/android-l-wallpapers-630ea6-h900.jpg");
                     case 1:
                         return HeaderDesign.fromColorResAndUrl(
-                                R.color.holo_blue,
+                                R.color.blue,
                                 "http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/06/wallpaper_51.jpg");
                     case 2:
                         return HeaderDesign.fromColorResAndUrl(
-                                R.color.cyan,
+                                R.color.blue,
                                 "http://www.droid-life.com/wp-content/uploads/2014/10/lollipop-wallpapers10.jpg");
                 }
 
@@ -204,13 +188,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    class ParseTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            DbUtil.insertFromXml();
-            return null;
-        }
-    }
 
     @OnClick(R.id.fab)
     public void goToDiaActivity() {
@@ -220,8 +197,6 @@ public class MainActivity extends AppCompatActivity implements
 //        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 ////        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        startActivity(i);
-
-
     }
 
     @Override
@@ -241,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements
 
             case R.id.action_update:
                 Intent intent1 = new Intent(MainActivity.this, SplashActivity.class);
-                intent1.putExtra("UPDATE", true);
+                intent1.putExtra("IS_FIRST_TIME", false);
                 startActivity(intent1);
                 break;
 

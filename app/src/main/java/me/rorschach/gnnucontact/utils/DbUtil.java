@@ -1,5 +1,7 @@
 package me.rorschach.gnnucontact.utils;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,17 +28,18 @@ public class DbUtil {
 
     //************************ base operation ******************************
 
+    @DebugLog
     public static boolean isEmpty() {
         sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
         return loadAll().isEmpty();
     }
 
     @DebugLog
-    public static long updateDbFromXml() {
+    public static long updateDbFromXml(XmlPullParser xmlPullParser) {
         sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
         sContactDao.deleteAll();
 
-        List<Contact> list = XmlParseUtil.updateXmlToDb();
+        List<Contact> list = XmlParseUtil.parseXml(xmlPullParser);
         for (Contact contact : list) {
             insertOrReplace(contact);
         }
@@ -44,10 +47,10 @@ public class DbUtil {
     }
 
     @DebugLog
-    public static long insertFromXml() {
+    public static long insertFromXml(XmlPullParser xmlPullParser) {
         if (isEmpty()) {
             sContactDao = MyApplication.getInstance().getDaoSession().getContactDao();
-            List<Contact> list = XmlParseUtil.parseXmlToDb();
+            List<Contact> list = XmlParseUtil.parseXml(xmlPullParser);
             for (Contact contact : list) {
                 insertOrReplace(contact);
             }

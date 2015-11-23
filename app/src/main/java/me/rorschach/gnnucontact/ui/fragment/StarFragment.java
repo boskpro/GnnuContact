@@ -37,7 +37,8 @@ public class StarFragment extends Fragment {
     private static StarFragment sFragment;
     private static List<Contact> starList = new ArrayList<>();
     private static RecyclerView.Adapter mAdapter;
-    static RecyclerView mRecyclerView;
+    private static RecyclerView mRecyclerView;
+    private static TextView mEmpty;
 
     private ListChangeListener mListener;
 
@@ -81,8 +82,10 @@ public class StarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_star, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.star_list);
+        mEmpty = (TextView) view.findViewById(R.id.empty);
 
         initRecyclerView();
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -105,8 +108,9 @@ public class StarFragment extends Fragment {
         starList = DbUtil.loadStarList();
         mAdapter = new RecyclerViewMaterialAdapter(new StarAdapter(mActivity, starList));
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyItemRangeChanged(0, starList.size());
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyItemRangeChanged(0, starList.size());
+//        mAdapter.notifyDataSetChanged();
+        checkVisibility();
     }
 
     private void initRecyclerView() {
@@ -117,7 +121,7 @@ public class StarFragment extends Fragment {
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 
-    private static void updateRecyclerView() {
+    private void updateRecyclerView() {
         mAdapter = new RecyclerViewMaterialAdapter(new StarAdapter(mActivity, starList));
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -131,6 +135,7 @@ public class StarFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mEmpty.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
         }
 
@@ -145,6 +150,15 @@ public class StarFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             updateRecyclerView();
+            checkVisibility();
+        }
+    }
+
+    private static void checkVisibility() {
+        if (starList.isEmpty()) {
+            mEmpty.setVisibility(View.VISIBLE);
+        } else {
+            mEmpty.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
     }
@@ -154,7 +168,6 @@ public class StarFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 
     public static class StarAdapter extends RecyclerView.Adapter<StarAdapter.StarViewHolder> {
 
@@ -246,6 +259,7 @@ public class StarFragment extends Fragment {
 
                 DetailFragment dialogFragment = DetailFragment.newInstance(contact);
                 dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
+                v.getRootView().clearFocus();
             }
         }
     }
