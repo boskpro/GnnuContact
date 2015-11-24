@@ -35,18 +35,15 @@ import butterknife.OnClick;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
+import me.rorschach.gnnucontact.User;
 import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
-import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.gnnucontact.ui.fragment.RecordFragment;
 import me.rorschach.gnnucontact.ui.fragment.StarFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.gnnucontact.utils.DisplayUtils;
 import me.rorschach.greendao.Contact;
 
-public class MainActivity extends AppCompatActivity implements
-        DetailFragment.StarChangeListener,
-        StarFragment.ListChangeListener,
-        RecordFragment.RecordChangeListener{
+public class MainActivity extends AppCompatActivity{
 
     @Bind(R.id.materialViewPager)
     MaterialViewPager mViewPager;
@@ -222,12 +219,13 @@ public class MainActivity extends AppCompatActivity implements
 //                "me.rorschach.xiaoji.ui.activity.MainActivity");
 //
 //        MainActivity.this.startActivity(intent);
+        EventBus.getDefault().post(new User("haha"), "TAG");
 
     }
 
-    @Subscriber(tag = "update_star_list")
-    private void testEventBus() {
-        Log.d("TAG", "testEventBus");
+    @Subscriber(tag = "TAG")
+    private void testEventBus(User user) {
+        Log.d("TAG", "testEventBus " + user.toString());
     }
 
 
@@ -310,26 +308,26 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void addRecord() {
-        updateRecordList();
-    }
-
-    @Override
-    @DebugLog
-    public void changeStarState() {
-        updateStarList();
-    }
-
-    @Override
-    @DebugLog
-    public boolean updateStarList() {
-        mStarFragment.updateAdapter();
-        return false;
-    }
-
-    @Override
-    public void updateRecordList() {
-        mRecordFragment.updateAdapter();
-    }
+//    @Override
+//    public void addRecord() {
+//        updateRecordList();
+//    }
+//
+//    @Override
+//    @DebugLog
+//    public void changeStarState() {
+//        updateStarList();
+//    }
+//
+//    @Override
+//    @DebugLog
+//    public boolean updateStarList() {
+//        mStarFragment.updateAdapter(new User("hah"));
+//        return false;
+//    }
+//
+//    @Override
+//    public void updateRecordList() {
+//        mRecordFragment.updateAdapter();
+//    }
 }

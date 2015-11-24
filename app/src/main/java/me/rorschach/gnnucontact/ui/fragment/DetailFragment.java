@@ -1,7 +1,6 @@
 package me.rorschach.gnnucontact.ui.fragment;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +27,7 @@ import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
+import me.rorschach.gnnucontact.User;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
@@ -56,7 +56,7 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     private Contact mContact;
 
     private static DetailFragment sFragment;
-    private StarChangeListener mListener;
+//    private StarChangeListener mListener;
 
     public static DetailFragment newInstance(Contact contact) {
         if (sFragment == null) {
@@ -133,11 +133,11 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
         if (isStar != mContact.getIsStar()) {
             DbUtil.insertOrReplace(mContact);
 
-            mListener.changeStarState();
+//            mListener.changeStarState();
+            EventBus.getDefault().post(new User("star"), "update_star_list");
         }
-        mListener.addRecord();
-//        EventBus.getDefault().post("star", "update_star_list");/*
-//        EventBus.getDefault().post("record", "update_record_list");*/
+//        mListener.addRecord();
+        EventBus.getDefault().post(new User("record"), "update_record_list");
     }
 
     @Override
@@ -186,29 +186,29 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     private void testEventBus() {
         Log.d("TAG", "testEventBus");
     }
+//
+//
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        try {
+//            mListener = (StarChangeListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement StarChangeListener");
+//        }
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (StarChangeListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement StarChangeListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface StarChangeListener {
-
-        void addRecord();
-
-        void changeStarState();
-    }
+//    public interface StarChangeListener {
+//
+//        void addRecord();
+//
+//        void changeStarState();
+//    }
 }

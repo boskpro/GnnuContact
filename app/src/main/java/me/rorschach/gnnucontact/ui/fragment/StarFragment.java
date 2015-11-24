@@ -31,6 +31,7 @@ import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
+import me.rorschach.gnnucontact.User;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
@@ -42,7 +43,6 @@ public class StarFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView mEmpty;
 
-    private ListChangeListener mListener;
 
     public StarFragment() {
         // Required empty public constructor
@@ -52,12 +52,6 @@ public class StarFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (AppCompatActivity) activity;
-        try {
-            mListener = (ListChangeListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement ListChangeListener");
-        }
     }
 
     @Override
@@ -91,7 +85,7 @@ public class StarFragment extends Fragment {
 
     @DebugLog
     @Subscriber(tag = "update_star_list")
-    public void updateAdapter() {
+    public void updateAdapter(User user) {
         starList.clear();
         starList.addAll(DbUtil.loadStarList());
         mAdapter.notifyDataSetChanged();
@@ -248,9 +242,5 @@ public class StarFragment extends Fragment {
                 v.getRootView().clearFocus();
             }
         }
-    }
-
-    public interface ListChangeListener {
-        boolean updateStarList();
     }
 }

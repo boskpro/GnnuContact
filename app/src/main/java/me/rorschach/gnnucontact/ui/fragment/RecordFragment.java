@@ -41,7 +41,7 @@ public class RecordFragment extends Fragment {
     private List<Contact> recordList = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
-    private RecordChangeListener mListener;
+//    private RecordChangeListener mListener;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -129,12 +129,12 @@ public class RecordFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (AppCompatActivity) activity;
-        try {
-            mListener = (RecordChangeListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement ListChangeListener");
-        }
+//        try {
+//            mListener = (RecordChangeListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement ListChangeListener");
+//        }
     }
 
     public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
@@ -248,9 +248,9 @@ public class RecordFragment extends Fragment {
         }
     }
 
-
-    public interface RecordChangeListener {
-        void updateRecordList();
-    }
+//
+//    public interface RecordChangeListener {
+//        void updateRecordList();
+//    }
 
 }

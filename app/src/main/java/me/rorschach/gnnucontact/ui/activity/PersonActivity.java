@@ -24,12 +24,10 @@ import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.adapter.PersonAdapter;
-import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.greendao.Contact;
 
-public class PersonActivity extends AppCompatActivity  implements
-        DetailFragment.StarChangeListener{
+public class PersonActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -132,14 +130,14 @@ public class PersonActivity extends AppCompatActivity  implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    @DebugLog
-    public void changeStarState() {
-
-    }
-
-    @Override
-    public void addRecord() {
-
-    }
+//    @Override
+//    @DebugLog
+//    public void changeStarState() {
+//
+//    }
+//
+//    @Override
+//    public void addRecord() {
+//
+//    }
 }
