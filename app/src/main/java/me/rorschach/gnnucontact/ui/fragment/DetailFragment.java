@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
+
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -71,6 +75,9 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventBus.getDefault().register(this);
+
         if (getArguments() != null) {
             mContact = (Contact) getArguments().getSerializable(ARG_CONTACT);
             if (mContact != null) {
@@ -113,6 +120,7 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         RefWatcher refWatcher = MyApplication.getRefWatcher();
         refWatcher.watch(this);
@@ -124,9 +132,12 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
 
         if (isStar != mContact.getIsStar()) {
             DbUtil.insertOrReplace(mContact);
+
             mListener.changeStarState();
         }
         mListener.addRecord();
+//        EventBus.getDefault().post("star", "update_star_list");/*
+//        EventBus.getDefault().post("record", "update_record_list");*/
     }
 
     @Override
@@ -141,6 +152,7 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
 
                 mContact.setIsRecord(true);
                 DbUtil.insertOrReplace(mContact);
+//                EventBus.getDefault().post("record", "update_record_list");
 
                 break;
 
@@ -155,14 +167,26 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
                 mStar.setImageResource(mContact.getIsStar() ?
                         R.drawable.ic_star_grey_32 : R.drawable.ic_unstar_grey_32);
                 mContact.setIsStar(mContact.getIsStar());
+//
+//                if (isStar != mContact.getIsStar()) {
+//                    DbUtil.insertOrReplace(mContact);
+////                    EventBus.getDefault().post("star", "update_star_list");
+//                }
 
                 break;
 
             case R.id.more:
                 //TODO
+//                EventBus.getDefault().post("star", "update_star_list");
                 break;
         }
     }
+
+    @Subscriber()
+    private void testEventBus() {
+        Log.d("TAG", "testEventBus");
+    }
+
 
     @Override
     public void onAttach(Activity activity) {

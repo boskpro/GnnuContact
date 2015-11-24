@@ -20,6 +20,9 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 import com.squareup.leakcanary.RefWatcher;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,22 +36,13 @@ import me.rorschach.greendao.Contact;
 
 public class StarFragment extends Fragment {
 
-    private static AppCompatActivity mActivity;
-    private static StarFragment sFragment;
-    private static List<Contact> starList = new ArrayList<>();
-    private static RecyclerView.Adapter mAdapter;
-    private static RecyclerView mRecyclerView;
-    private static TextView mEmpty;
+    private AppCompatActivity mActivity;
+    private List<Contact> starList = new ArrayList<>();
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private TextView mEmpty;
 
     private ListChangeListener mListener;
-
-    @DebugLog
-    public static StarFragment newInstance() {
-        if (sFragment == null) {
-            sFragment = new StarFragment();
-        }
-        return sFragment;
-    }
 
     public StarFragment() {
         // Required empty public constructor
@@ -67,17 +61,6 @@ public class StarFragment extends Fragment {
     }
 
     @Override
-    @DebugLog
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-        mActivity = null;
-        sFragment = null;
-        mAdapter = null;
-        starList = null;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_star, container, false);
@@ -86,10 +69,12 @@ public class StarFragment extends Fragment {
 
         initRecyclerView();
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
     @Override
+    @DebugLog
     public void onResume() {
         super.onResume();
         LoadStarTask starTask = new LoadStarTask();
@@ -98,18 +83,18 @@ public class StarFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         RefWatcher refWatcher = MyApplication.getRefWatcher();
         refWatcher.watch(this);
     }
 
     @DebugLog
-    public static void updateAdapter() {
-        starList = DbUtil.loadStarList();
-        mAdapter = new RecyclerViewMaterialAdapter(new StarAdapter(mActivity, starList));
-        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyItemRangeChanged(0, starList.size());
-//        mAdapter.notifyDataSetChanged();
+    @Subscriber(tag = "update_star_list")
+    public void updateAdapter() {
+        starList.clear();
+        starList.addAll(DbUtil.loadStarList());
+        mAdapter.notifyDataSetChanged();
         checkVisibility();
     }
 
@@ -154,8 +139,9 @@ public class StarFragment extends Fragment {
         }
     }
 
-    private static void checkVisibility() {
+    private void checkVisibility() {
         if (starList.isEmpty()) {
+            mRecyclerView.setVisibility(View.INVISIBLE);
             mEmpty.setVisibility(View.VISIBLE);
         } else {
             mEmpty.setVisibility(View.INVISIBLE);

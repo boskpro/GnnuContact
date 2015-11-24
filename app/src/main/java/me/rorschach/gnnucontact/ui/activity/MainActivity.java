@@ -2,6 +2,7 @@ package me.rorschach.gnnucontact.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,14 +10,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.squareup.leakcanary.RefWatcher;
+
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +39,9 @@ import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
 import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.gnnucontact.ui.fragment.RecordFragment;
 import me.rorschach.gnnucontact.ui.fragment.StarFragment;
+import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.gnnucontact.utils.DisplayUtils;
+import me.rorschach.greendao.Contact;
 
 public class MainActivity extends AppCompatActivity implements
         DetailFragment.StarChangeListener,
@@ -49,12 +62,13 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        EventBus.getDefault().register(this);
         initView();
     }
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         RefWatcher refWatcher = MyApplication.getRefWatcher();
         refWatcher.watch(this);
@@ -84,13 +98,18 @@ public class MainActivity extends AppCompatActivity implements
             public Fragment getItem(int position) {
                 switch (position % 3) {
                     case 0:
-                        mRecordFragment = RecordFragment.newInstance();
+                        if (mRecordFragment == null) {
+                            mRecordFragment = new RecordFragment();
+                        }
                         return mRecordFragment;
                     case 1:
                         mCollegeFragment = CollegeFragment.newInstance();
                         return mCollegeFragment;
                     case 2:
-                        mStarFragment = StarFragment.newInstance();
+//                        mStarFragment = StarFragment.newInstance();
+                        if (mStarFragment == null) {
+                            mStarFragment = new StarFragment();
+                        }
                         return mStarFragment;
                     default:
                         mCollegeFragment = CollegeFragment.newInstance();
@@ -188,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-
     @OnClick(R.id.fab)
     public void goToDiaActivity() {
 //        finish();
@@ -196,8 +214,22 @@ public class MainActivity extends AppCompatActivity implements
 //                .getLaunchIntentForPackage(getBaseContext().getPackageName());
 //        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 ////        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+////        Intent intent = new Intent(Intent.ACTION_MAIN);
+////        intent.addCategory(Intent.CATEGORY_LAUNCHER);
 //        startActivity(i);
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.setClassName("me.rorschach.xiaoji",
+//                "me.rorschach.xiaoji.ui.activity.MainActivity");
+//
+//        MainActivity.this.startActivity(intent);
+
     }
+
+    @Subscriber(tag = "update_star_list")
+    private void testEventBus() {
+        Log.d("TAG", "testEventBus");
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,10 +253,61 @@ public class MainActivity extends AppCompatActivity implements
                 break;
 
             case R.id.action_export:
-
+                exportFile();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @DebugLog
+    private void exportFile() {
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            Toast.makeText(this, "export later...", Toast.LENGTH_SHORT).show();
+            String sdCard = Environment.getExternalStorageDirectory().getPath();
+            File sdCardPath = new File(sdCard);
+            File filePath;
+            String PATH = "/GnnuContact";
+            List<Contact> contacts = DbUtil.loadAll();
+
+            filePath = new File(sdCardPath + PATH);
+            if (!filePath.exists()) {
+                filePath.mkdir();
+            }
+
+            FileWriter fw = null;
+            File vcfFile;
+
+            try {
+                vcfFile = new File(filePath, "gnnucontact.vcf");
+                if (vcfFile.exists()) {
+                    vcfFile.delete();
+                    vcfFile.createNewFile();
+                }
+                fw = new FileWriter(vcfFile);
+
+                for (Contact contact : contacts) {
+                    fw.write("BEGIN:VCARD\n");
+                    fw.write("VERSION:3.0\n");
+
+                    fw.write("FN:" + contact.getName() + "\n");
+                    fw.write("TEL;TYPE=WORK,PREF:" + contact.getTel() + "\n");
+                    fw.write("ADR;TYPE=WORK:" + contact.getCollege() + "\n");
+
+                    fw.write("END:VCARD\n\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(this, "export success", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "no such dir", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -20,6 +20,9 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 import com.squareup.leakcanary.RefWatcher;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,25 +36,16 @@ import me.rorschach.greendao.Contact;
 
 public class RecordFragment extends Fragment {
 
-    private static AppCompatActivity mActivity;
-    private static RecordFragment sFragment;
-    private static RecyclerView.Adapter mAdapter;
-    private static List<Contact> recordList = new ArrayList<>();
-    static RecyclerView mRecyclerView;
+    private AppCompatActivity mActivity;
+    private RecyclerView.Adapter mAdapter;
+    private List<Contact> recordList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
 
     private RecordChangeListener mListener;
-
-    public static RecordFragment newInstance() {
-        if (sFragment == null) {
-            sFragment = new RecordFragment();
-        }
-        return sFragment;
-    }
 
     public RecordFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +55,13 @@ public class RecordFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.record_list);
 
         initRecyclerView();
+
+        EventBus.getDefault().register(this);
         return view;
     }
 
     @Override
+    @DebugLog
     public void onResume() {
         super.onResume();
 
@@ -80,20 +77,17 @@ public class RecordFragment extends Fragment {
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 
-    private static void updateRecyclerView() {
+    private void updateRecyclerView() {
         mAdapter = new RecyclerViewMaterialAdapter(new RecordAdapter(mActivity, recordList));
         mRecyclerView.setAdapter(mAdapter);
     }
 
     @DebugLog
-    public static void updateAdapter() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        recordList = DbUtil.loadRecordList();
-        mAdapter = new RecyclerViewMaterialAdapter(new RecordAdapter(mActivity, recordList));
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyItemRangeChanged(0, recordList.size());
+    @Subscriber(tag = "update_record_list")
+    public void updateAdapter() {
+        recordList.clear();
+        recordList.addAll(DbUtil.loadRecordList());
         mAdapter.notifyDataSetChanged();
-        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     class LoadRecordTask extends AsyncTask<Void, Void, Void> {
@@ -109,6 +103,7 @@ public class RecordFragment extends Fragment {
         }
 
         @Override
+        @DebugLog
         protected Void doInBackground(Void... params) {
             recordList = DbUtil.loadRecordList();
             return null;
@@ -124,6 +119,7 @@ public class RecordFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         RefWatcher refWatcher = MyApplication.getRefWatcher();
         refWatcher.watch(this);
@@ -141,18 +137,7 @@ public class RecordFragment extends Fragment {
         }
     }
 
-    @Override
-    @DebugLog
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-        mActivity = null;
-        sFragment = null;
-        mAdapter = null;
-        recordList = null;
-    }
-
-    public static class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
+    public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
 
         private AppCompatActivity mActivity;
         private List<Contact> mList;
