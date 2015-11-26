@@ -37,15 +37,16 @@ import me.rorschach.greendao.Contact;
 
 public class StarFragment extends Fragment {
 
+    @Bind(R.id.star_list)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.empty)
+    TextView mEmpty;
+
     private AppCompatActivity mActivity;
     private List<Contact> starList = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private TextView mEmpty;
-
 
     public StarFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -58,11 +59,9 @@ public class StarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_star, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.star_list);
-        mEmpty = (TextView) view.findViewById(R.id.empty);
+        ButterKnife.bind(this, view);
 
         initRecyclerView();
-        ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         return view;
     }

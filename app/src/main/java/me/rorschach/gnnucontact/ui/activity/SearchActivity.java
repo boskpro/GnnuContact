@@ -1,21 +1,29 @@
 package me.rorschach.gnnucontact.ui.activity;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
 
@@ -26,8 +34,9 @@ import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
-import me.rorschach.gnnucontact.adapter.SearchAdapter;
+import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
 import me.rorschach.gnnucontact.utils.DbUtil;
+import me.rorschach.gnnucontact.utils.TextUtil;
 import me.rorschach.greendao.Contact;
 
 public class SearchActivity extends AppCompatActivity {
@@ -98,14 +107,7 @@ public class SearchActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_search, menu);
 
         final MenuItem menuSearchItem = menu.findItem(R.id.action_search);
-        // Get the SearchView and set the searchable configuration
-
-//        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
         SearchView searchView = (SearchView) menuSearchItem.getActionView();
-        // Assumes current activity is the searchable activity
-
-        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
         searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>"
                 + getResources().getString(R.string.search_hint) + "</font>"));
@@ -113,14 +115,12 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             @DebugLog
             public boolean onQueryTextSubmit(String query) {
-                Log.d("SearchActivity", "onQueryTextSubmit");
                 doMySearch(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("SearchActivity", "onQueryTextChange");
                 if (!TextUtils.isEmpty(newText)) {
                     doMySearch(newText);
                     mSearchList.setVisibility(View.VISIBLE);
@@ -130,14 +130,6 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-//        int searchSrcTextId = getResources().getIdentifier("android:id/search_src_text", null, null);
-//        EditText searchEditText = (EditText) searchView.findViewById(searchSrcTextId);
-//        searchEditText.setTextColor(Color.BLUE); // set the text color
-//        searchEditText.setHintTextColor(Color.BLUE); // set the hint color
-
-//        SearchView.SearchAutoComplete textView = ( SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
-//        textView.setTextColor(Color.WHITE);
 
         MenuItemCompat.expandActionView(menuSearchItem);
         MenuItemCompat.setOnActionExpandListener(menuSearchItem, new MenuItemCompat.OnActionExpandListener() {//设置打开关闭动作监听
@@ -180,6 +172,106 @@ public class SearchActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             updateRecyclerView(query);
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultViewHolder> {
+
+        private Activity mActivity;
+        private List<Contact> mList;
+        private String query;
+
+        private ResultViewHolder mViewHolder;
+
+        public SearchAdapter(Activity activity, List<Contact> list, String query) {
+            this.mActivity = activity;
+            this.mList = list;
+            this.query = query;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mList.size();
+        }
+
+        @Override
+        public ResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            final View view = LayoutInflater.from(mActivity)
+                    .inflate(R.layout.view_item_person, parent, false);
+            mViewHolder = new ResultViewHolder(view);
+            return mViewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(ResultViewHolder holder, int position) {
+            final Contact contact = mList.get(position);
+            holder.mName.setText(contact.getName());
+            holder.mTel.setText(contact.getTel());
+
+            SpannableStringBuilder textString = TextUtil.highlight(contact.getName(), query);
+            holder.mName.setText(textString);
+            textString = TextUtil.highlight(contact.getTel(), query);
+            holder.mTel.setText(textString);
+        }
+
+        class ResultViewHolder extends RecyclerView.ViewHolder
+                implements View.OnClickListener, View.OnLongClickListener {
+
+            @Bind(R.id.name)
+            TextView mName;
+            @Bind(R.id.tel)
+            TextView mTel;
+
+            public ResultViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+
+                itemView.setOnClickListener(this);
+                itemView.setOnLongClickListener(this);
+            }
+
+            @Override
+            public boolean onLongClick(View v) {
+
+                int position = getAdapterPosition();
+                final Contact contact = mList.get(position);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setTitle(contact.getName())
+                        .setMessage(contact.getTel() + "\n" + contact.getCollege())
+                        .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri uri = Uri.parse("tel:" + contact.getTel());
+                                Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                                mActivity.startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Sms", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri uri = Uri.parse("sms:" + contact.getTel());
+                                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                                mActivity.startActivity(intent);
+                            }
+                        })
+                        .setNeutralButton("Cancel", null)
+                        .create()
+                        .show();
+
+                return true;
+            }
+
+            @Override
+            public void onClick(View v) {
+
+                int position = getAdapterPosition();
+                final Contact contact = mList.get(position);
+
+            DetailFragment dialogFragment = DetailFragment.newInstance(contact);
+            dialogFragment.show(getSupportFragmentManager(), "dialog");
+
+            }
         }
     }
 }

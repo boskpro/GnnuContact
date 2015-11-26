@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +21,6 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -35,7 +33,6 @@ import butterknife.OnClick;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
-import me.rorschach.gnnucontact.User;
 import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
 import me.rorschach.gnnucontact.ui.fragment.RecordFragment;
 import me.rorschach.gnnucontact.ui.fragment.StarFragment;
@@ -43,7 +40,7 @@ import me.rorschach.gnnucontact.utils.DbUtil;
 import me.rorschach.gnnucontact.utils.DisplayUtils;
 import me.rorschach.greendao.Contact;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.materialViewPager)
     MaterialViewPager mViewPager;
@@ -100,16 +97,19 @@ public class MainActivity extends AppCompatActivity{
                         }
                         return mRecordFragment;
                     case 1:
-                        mCollegeFragment = CollegeFragment.newInstance();
+                        if (mCollegeFragment == null) {
+                            mCollegeFragment = new CollegeFragment();
+                        }
                         return mCollegeFragment;
                     case 2:
-//                        mStarFragment = StarFragment.newInstance();
                         if (mStarFragment == null) {
                             mStarFragment = new StarFragment();
                         }
                         return mStarFragment;
                     default:
-                        mCollegeFragment = CollegeFragment.newInstance();
+                        if (mCollegeFragment == null) {
+                            mCollegeFragment = new CollegeFragment();
+                        }
                         return mCollegeFragment;
                 }
             }
@@ -128,12 +128,6 @@ public class MainActivity extends AppCompatActivity{
                         return "学院列表";
                     case 2:
                         return "收藏联系人";
-//                    case 0:
-//                        return "record";
-//                    case 1:
-//                        return "college";
-//                    case 2:
-//                        return "star";
                 }
                 return "";
             }
@@ -217,17 +211,7 @@ public class MainActivity extends AppCompatActivity{
 //        Intent intent = new Intent(Intent.ACTION_MAIN);
 //        intent.setClassName("me.rorschach.xiaoji",
 //                "me.rorschach.xiaoji.ui.activity.MainActivity");
-//
-//        MainActivity.this.startActivity(intent);
-        EventBus.getDefault().post(new User("haha"), "TAG");
-
     }
-
-    @Subscriber(tag = "TAG")
-    private void testEventBus(User user) {
-        Log.d("TAG", "testEventBus " + user.toString());
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -307,27 +291,4 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, "no such dir", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    @Override
-//    public void addRecord() {
-//        updateRecordList();
-//    }
-//
-//    @Override
-//    @DebugLog
-//    public void changeStarState() {
-//        updateStarList();
-//    }
-//
-//    @Override
-//    @DebugLog
-//    public boolean updateStarList() {
-//        mStarFragment.updateAdapter(new User("hah"));
-//        return false;
-//    }
-//
-//    @Override
-//    public void updateRecordList() {
-//        mRecordFragment.updateAdapter();
-//    }
 }

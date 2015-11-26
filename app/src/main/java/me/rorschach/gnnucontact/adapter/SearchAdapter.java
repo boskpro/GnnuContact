@@ -80,14 +80,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
 
         @Override
         public boolean onLongClick(View v) {
-//
-//                int position = getAdapterPosition();
-//                final Contact contact = mList.get(position);
-            return true;
-        }
-
-        @Override
-        public void onClick(View v) {
 
             int position = getAdapterPosition();
             final Contact contact = mList.get(position);
@@ -114,6 +106,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
                     .setNeutralButton("Cancel", null)
                     .create()
                     .show();
+
+            return true;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getAdapterPosition();
+            final Contact contact = mList.get(position);
+
+//            DetailFragment dialogFragment = DetailFragment.newInstance(contact);
+//            dialogFragment.show(mActivity.getSupportFragmentManager(), "dialog");
+
         }
     }
 }

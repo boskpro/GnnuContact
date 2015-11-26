@@ -36,23 +36,21 @@ import me.rorschach.greendao.Contact;
 
 public class RecordFragment extends Fragment {
 
+    @Bind(R.id.record_list)
+    RecyclerView mRecyclerView;
+
     private AppCompatActivity mActivity;
     private RecyclerView.Adapter mAdapter;
     private List<Contact> recordList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-
-//    private RecordChangeListener mListener;
 
     public RecordFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_record, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.record_list);
+        ButterKnife.bind(this, view);
 
         initRecyclerView();
 
@@ -88,6 +86,12 @@ public class RecordFragment extends Fragment {
         recordList.clear();
         recordList.addAll(DbUtil.loadRecordList());
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     class LoadRecordTask extends AsyncTask<Void, Void, Void> {
@@ -129,12 +133,6 @@ public class RecordFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (AppCompatActivity) activity;
-//        try {
-//            mListener = (RecordChangeListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement ListChangeListener");
-//        }
     }
 
     public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
@@ -188,9 +186,6 @@ public class RecordFragment extends Fragment {
             public boolean onLongClick(View v) {
                 int position = getAdapterPosition();
                 final Contact contact = mList.get(position - 1);
-//
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, mList.size());
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                 builder.setTitle(R.string.sure_delete_record)
@@ -207,8 +202,6 @@ public class RecordFragment extends Fragment {
                         .setNegativeButton(R.string.cancel, null)
                         .create()
                         .show();
-
-
                 return true;
             }
 
@@ -243,14 +236,7 @@ public class RecordFragment extends Fragment {
 //                        .setNeutralButton("Cancel", null)
 //                        .create()
 //                        .show();
-
             }
         }
     }
-
-//
-//    public interface RecordChangeListener {
-//        void updateRecordList();
-//    }
-
 }
