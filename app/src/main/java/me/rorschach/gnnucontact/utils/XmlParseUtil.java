@@ -56,4 +56,6 @@ public class XmlParseUtil {
         Log.d("TAG", "parseXml done");
         return contactsList;
     }
+
+
 }

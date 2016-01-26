@@ -12,9 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.squareup.leakcanary.RefWatcher;
 
@@ -32,8 +34,13 @@ import me.rorschach.greendao.Contact;
 public class DetailFragment extends DialogFragment implements View.OnClickListener {
 
     private static final String ARG_CONTACT = "ARG_CONTACT";
+
     private boolean isStar = false;
 
+    @Bind(R.id.detail_switcher)
+    ViewSwitcher mDetailSwitcher;
+    @Bind(R.id.test_view)
+    FrameLayout mTestView;
     @Bind(R.id.avatar)
     ImageView mAvatar;
     @Bind(R.id.name)
@@ -104,6 +111,7 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
         mSms.setOnClickListener(this);
         mStar.setOnClickListener(this);
         mMore.setOnClickListener(this);
+        mTestView.setOnClickListener(this);
     }
 
     @Override
@@ -163,7 +171,14 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
                 break;
 
             case R.id.more:
-                //TODO
+                mDetailSwitcher.showNext();
+                break;
+
+            case R.id.test_view:
+                mDetailSwitcher.showNext();
+                break;
+
+            default:
                 break;
         }
     }
