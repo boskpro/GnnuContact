@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.R;
-import me.rorschach.gnnucontact.utils.DbUtil;
+import me.rorschach.gnnucontact.util.DbUtil;
 
 public class SplashActivity extends Activity {
 

@@ -35,8 +35,8 @@ import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.fragment.DetailFragment;
-import me.rorschach.gnnucontact.utils.DbUtil;
-import me.rorschach.gnnucontact.utils.TextUtil;
+import me.rorschach.gnnucontact.util.DbUtil;
+import me.rorschach.gnnucontact.util.TextUtil;
 import me.rorschach.greendao.Contact;
 
 public class SearchActivity extends AppCompatActivity {

@@ -24,7 +24,7 @@ import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.activity.PersonActivity;
-import me.rorschach.gnnucontact.utils.DbUtil;
+import me.rorschach.gnnucontact.util.DbUtil;
 
 public class CollegeFragment extends Fragment {
 

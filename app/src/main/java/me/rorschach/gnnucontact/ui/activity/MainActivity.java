@@ -29,15 +29,14 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import hugo.weaving.DebugLog;
 import me.rorschach.gnnucontact.MyApplication;
 import me.rorschach.gnnucontact.R;
 import me.rorschach.gnnucontact.ui.fragment.CollegeFragment;
 import me.rorschach.gnnucontact.ui.fragment.RecordFragment;
 import me.rorschach.gnnucontact.ui.fragment.StarFragment;
-import me.rorschach.gnnucontact.utils.DbUtil;
-import me.rorschach.gnnucontact.utils.DisplayUtils;
+import me.rorschach.gnnucontact.util.DbUtil;
+import me.rorschach.gnnucontact.util.DisplayUtil;
 import me.rorschach.greendao.Contact;
 
 public class MainActivity extends AppCompatActivity {
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (position == 0) {
                     mFab.animate()
-                            .translationX(-DisplayUtils.getScreenWidth(MainActivity.this) / 2
+                            .translationX(-DisplayUtil.getScreenWidth(MainActivity.this) / 2
                                     - getResources().getDimension(R.dimen.fab_margin) / 2
                                     + mFab.getWidth())
                             .setDuration(350)
@@ -196,21 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
-    }
-
-    @OnClick(R.id.fab)
-    public void goToDiaActivity() {
-//        finish();
-//        Intent i = getBaseContext().getPackageManager()
-//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-////        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////        Intent intent = new Intent(Intent.ACTION_MAIN);
-////        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-//        startActivity(i);
-//        Intent intent = new Intent(Intent.ACTION_MAIN);
-//        intent.setClassName("me.rorschach.xiaoji",
-//                "me.rorschach.xiaoji.ui.activity.MainActivity");
     }
 
     @Override
@@ -281,7 +265,9 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             } finally {
                 try {
-                    fw.close();
+                    if (fw != null) {
+                        fw.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

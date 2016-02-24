@@ -1,4 +1,4 @@
-package me.rorschach.gnnucontact.utils;
+package me.rorschach.gnnucontact.util;
 
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;

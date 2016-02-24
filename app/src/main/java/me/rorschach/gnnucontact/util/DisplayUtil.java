@@ -1,4 +1,4 @@
-package me.rorschach.gnnucontact.utils;
+package me.rorschach.gnnucontact.util;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -9,7 +9,7 @@ import android.view.WindowManager;
 /**
  * Created by root on 15-10-22.
  */
-public class DisplayUtils {
+public class DisplayUtil {
 
     private static int screenWidth = 0;
     private static int screenHeight = 0;
